@@ -1,0 +1,519 @@
+/* =========================================================
+   style.css  -  all colors and design of the app page
+   ========================================================= */
+
+
+/* ---------- 1. COLORS (change the theme here) ---------- */
+
+:root {
+  --bg:   #f4f5fb;   /* page background */
+  --card: #ffffff;   /* cards, stats box */
+  --text: #16172b;   /* main text */
+  --mute: #70738a;   /* small grey text */
+  --main: #5b5bf0;   /* buttons, links */
+  --line: #e4e6f2;   /* borders */
+  --star: #f5a623;   /* star color */
+
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+/* dark mode (automatic) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:   #0f1020;
+    --card: #1a1b30;
+    --text: #eceefc;
+    --mute: #9a9db8;
+    --main: #8b8bff;
+    --line: #2a2c47;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg:   #0f1020;
+  --card: #1a1b30;
+  --text: #eceefc;
+  --mute: #9a9db8;
+  --main: #8b8bff;
+  --line: #2a2c47;
+}
+
+
+/* ---------- 2. BASE ---------- */
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.5 system-ui, -apple-system, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+main {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 18px 56px;
+}
+
+h2 {
+  font-size: 20px;
+  letter-spacing: -0.02em;
+  margin: 30px 0 12px;
+}
+
+/* text that must stay on ONE line (adds ... if too long) */
+.one-line {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.muted { color: var(--mute); }
+
+.icon {
+  width: 22px;
+  height: 22px;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+
+/* ---------- 3. TOP: logo, name, company ---------- */
+
+.top-row {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 20px;
+}
+
+.top-row > button {
+  flex: none;
+  transition: transform 0.15s;
+}
+
+.top-row > button:active { transform: scale(0.96); }
+
+.top-text { min-width: 0; }
+
+h1 {
+  margin: 0;
+  font-size: 27px;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+.company {
+  color: var(--main);
+  font-weight: 600;
+}
+
+.logo {
+  display: block;
+  object-fit: cover;
+  width: 104px;
+  height: 104px;
+  border-radius: 26px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
+
+/* ---------- 4. BUTTONS (Install + Visit website) ---------- */
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.btn {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  overflow: hidden;
+  border: 2px solid var(--main);
+  border-radius: 26px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: transform 0.15s;
+}
+
+.btn:active { transform: scale(0.97); }
+.btn > * { position: relative; }
+
+.btn-install {
+  background: var(--main);
+  color: #fff;
+}
+
+.btn-install.done {
+  background: #22b573;
+  border-color: #22b573;
+}
+
+.btn-website { color: var(--main); }
+
+/* the bar that fills while downloading */
+.btn-fill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.bounce { animation: bounce 0.8s ease-in-out infinite; }
+
+@keyframes bounce { 50% { transform: translateY(3px); } }
+
+.icon .draw {
+  stroke-dasharray: 1;
+  animation: draw 0.45s ease-out both;
+}
+
+@keyframes draw {
+  from { stroke-dashoffset: 1; }
+  to   { stroke-dashoffset: 0; }
+}
+
+
+/* ---------- 5. STATS ROW (scrolls left to right) ---------- */
+
+.stats {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  margin: 18px 0 22px;
+  padding: 14px 0;
+  background: var(--card);
+  border-radius: 18px;
+}
+
+.stat {
+  flex: none;
+  min-width: 112px;
+  padding: 0 14px;
+  text-align: center;
+  border-right: 1px solid var(--line);
+}
+
+.stat:last-child { border-right: 0; }
+
+.stat .icon {
+  margin: 0 auto 4px;
+  color: var(--mute);
+}
+
+.stat .icon.gold {
+  fill: var(--star);
+  stroke: var(--star);
+}
+
+.stat b {
+  display: block;
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+.stat span {
+  font-size: 12px;
+  color: var(--mute);
+  white-space: nowrap;
+}
+
+
+/* ---------- 6. SCROLL ROWS (screenshots, tags, related apps) ---------- */
+
+.row-scroll {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x proximity;
+  margin: 0 -18px;
+  padding: 0 18px;
+}
+
+.row-scroll > * {
+  flex: none;
+  scroll-snap-align: start;
+}
+
+.stats::-webkit-scrollbar,
+.row-scroll::-webkit-scrollbar { display: none; }
+
+.shot svg,
+.shot img {
+  display: block;
+  width: 150px;
+  height: 300px;
+  border-radius: 20px;
+  object-fit: cover;
+  transition: transform 0.2s;
+}
+
+.shot:active svg,
+.shot:active img { transform: scale(0.97); }
+
+
+/* your screenshot images keep their own shape */
+.shot img { width: auto; }
+
+
+/* ---------- 7. ABOUT + TAGS ---------- */
+
+.about {
+  max-width: 64ch;
+  margin: 0 0 14px;
+}
+
+.tag {
+  padding: 7px 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+
+/* ---------- 8. RATINGS ---------- */
+
+.ratings {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 20px 22px;
+  background: var(--card);
+  border-radius: 20px;
+}
+
+.rating-number {
+  display: block;
+  font-size: 52px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+  margin-top: 8px;
+  color: var(--star);
+}
+
+.stars .icon {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+  stroke: none;
+}
+
+.bars { flex: 1; }
+
+.bar-line {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0;
+  font-size: 12px;
+  color: var(--mute);
+}
+
+.bar-track {
+  flex: 1;
+  height: 7px;
+  overflow: hidden;
+  background: var(--line);
+  border-radius: 4px;
+}
+
+.bar-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--main);
+  border-radius: 4px;
+  transition: width 1s 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+
+/* ---------- 9. RELATED APPS ---------- */
+
+.related { width: 124px; }
+
+.related .logo {
+  width: 124px;
+  height: 124px;
+  margin-bottom: 8px;
+  border-radius: 30px;
+  transition: transform 0.2s;
+}
+
+.related:active .logo { transform: scale(0.96); }
+
+.related b {
+  display: block;
+  font-size: 15px;
+}
+
+.related span {
+  display: block;
+  font-size: 13px;
+  color: var(--mute);
+}
+
+
+/* ---------- 10. FULLSCREEN VIEWER (lightbox) ---------- */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  background: rgba(5, 6, 16, 0.96);
+  animation: fade 0.2s;
+}
+
+@keyframes fade { from { opacity: 0; } }
+
+.lb-close {
+  position: absolute;
+  top: calc(12px + env(safe-area-inset-top, 0px));
+  right: 14px;
+  z-index: 2;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 50%;
+}
+
+.lb-count {
+  position: absolute;
+  top: calc(22px + env(safe-area-inset-top, 0px));
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: #fff;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.lb-track {
+  flex: 1;
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+  touch-action: pan-x;
+}
+
+.lb-track::-webkit-scrollbar { display: none; }
+
+.lb-slide {
+  flex: none;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  scroll-snap-align: center;
+}
+
+.lb-zoom {
+  transition: transform 0.15s;
+  touch-action: none;
+}
+
+.lb-zoom svg,
+.lb-zoom img {
+  display: block;
+  width: auto;
+  height: 78vh;
+  max-width: 92vw;
+  border-radius: 22px;
+}
+
+.lb-zoom .logo {
+  width: min(70vw, 340px);
+  height: auto;
+  border-radius: 22%;
+}
+
+
+/* ---------- 11. LOADING (skeleton) ---------- */
+
+.sk {
+  border-radius: 18px;
+  background: linear-gradient(90deg, var(--card) 25%, var(--line) 50%, var(--card) 75%);
+  background-size: 300% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+
+@keyframes shimmer { to { background-position: -300% 0; } }
+
+.sk-top   { display: flex; gap: 18px; margin-bottom: 20px; }
+.sk-logo  { width: 104px; height: 104px; }
+.sk-lines { flex: 1; padding-top: 12px; }
+.sk-line  { height: 22px; width: 60%; margin-bottom: 12px; }
+.sk-btn   { height: 50px; margin-bottom: 18px; }
+.sk-stats { height: 84px; margin-bottom: 22px; }
+.sk-shot  { height: 300px; }
+
+/* page opens: each section fades in one after another */
+.reveal > * {
+  animation: rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation-delay: var(--delay);
+}
+
+@keyframes rise { from { opacity: 0; transform: translateY(14px); } }
+
+
+/* ---------- 12. SMALL SCREENS ---------- */
+
+@media (max-width: 480px) {
+  .logo { width: 88px; height: 88px; border-radius: 22px; }
+  h1 { font-size: 23px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
